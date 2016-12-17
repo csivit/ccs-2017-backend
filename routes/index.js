@@ -41,20 +41,20 @@ var auth = require('./auth.js');
 
     User.findOne({email: email}, function(err, user){
       if(err){
-        res.json({success: false, error: "Database Error"});
+        res.status(500).json({success: false, message: "Database Error"});
       }
       if(!user){
-        res.json({success: false, error: "User doesn't exsits"});        
+        res.status(400).json({success: false, message: "User doesn't exsits"});        
       }
       else{
           user.comparePassword(password, function(err ,correct){
             if(!correct){
-              res.json({success: false, error: "Wrong Password"})
+              res.status(422).json({success: false, message: "Wrong Password"})
             }
             else{
               var payload = {id: user._id};
               var token = jwt.sign(payload, config.secret);
-              res.json({success: true, token: token});
+              res.json({success: true, token: token, message: "Login Succesful"});
             }
           })
           
