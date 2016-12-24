@@ -52,7 +52,7 @@ var auth = require('./auth.js');
               res.status(422).json({success: false, message: "Wrong Password"})
             }
             else{
-              var payload = {id: user._id};
+              var payload = {id: user._id, email: user.email};
               var token = jwt.sign(payload, config.secret);
               res.json({success: true, token: token, message: "Login Succesful"});
             }
