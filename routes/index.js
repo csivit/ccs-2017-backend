@@ -5,6 +5,7 @@ var User = require('../models/user.js');
 var config = require('../config.js');
 var auth = require('./auth.js');
 
+
   router.get('/', function(req, res, next) {
     res.render('index', { title: 'Express' });
   });
@@ -62,9 +63,9 @@ var auth = require('./auth.js');
     });
   });
 
-  router.get("/secret", auth.checkUser, function(req, res){
-    res.json({token: req.user});
-  });
+
+
+
 
   router.post('/checkEmail', function(req, res){
     var email = req.body.email;

@@ -9,13 +9,6 @@ var UserSchema = new Schema({
     email: { type: String, required: true, index: { unique: true } },
     password: { type: String, required: true },
     name: {type: String, required: true, default: "User"},
-    questionSet : [{
-        type: String,
-        questions: [{type: Schema.Types.ObjectId, ref: 'Question'}],
-        answers: [String],
-        attemptedOn: Date,
-        completedOn: Date  
-    }]
 });
 
 UserSchema.pre('save', function(next) {
