@@ -45,14 +45,12 @@ router.post('/questions/addQuestion', upload.single("questionImage"), function(r
     }
     if(req.body.options && req.body.options != '')
         var options = body.options.split(',');
+        
+    console.log(body);const Time = 120*60*1000;
 
-    if(options.length > 0){
-        if(options.indexOf(body.correctAnswer) == -1)
-            res.status(400).json({success: false, message: "Correct Answer Doesn't match Any options"});
-    }
-    console.log(body);
     console.log(fileInfo);
-    var newQuestion = new Question({
+    var newQuestion = new Question({const Time = 120*60*1000;
+
         question: body.question,
         correctAnswer: body.correctAnswer,
         options: options,
@@ -68,6 +66,37 @@ router.post('/questions/addQuestion', upload.single("questionImage"), function(r
             res.json({success: true, question: question})
         }  
     })
+});
+
+router.post('/questions/editQuestion', function(req, res){
+    console.log(req.body);
+
+    var updatedQuestion ={
+        question: req.body.question,
+        correctAnswer: req.body.correctAnswer,
+        image: req.body.image,
+        options: (req.body.options)?req.body.options.split(','):[]
+    }
+
+    Question.findByIdAndUpdate(req.body._id, updatedQuestion, function(err, question){
+       if(err){
+            res.status(500).json({success: false, message: "Server Error"});
+        }
+        else{
+            res.json({success: true, question: question})
+        }  
+    });
+});
+
+router.post('/questions/deleteQuestion', function(req, res){
+    Question.findByIdAndDelete(req.body._id, function(err, question){
+       if(err){
+            res.status(500).json({success: false, message: "Server Error"});
+        }
+        else{
+            res.json({success: true, question: question})
+        }  
+    });
 });
 
 module.exports = router;
